@@ -71,7 +71,8 @@ main {
 }
 
 .hero h1 {
-  font-family: 'Aladin', cursive;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
   font-size: 2.8rem;
   margin: 0 0 12px;
   color: #8a4b12;
@@ -139,7 +140,8 @@ main {
 }
 
 .card .name {
-  font-family: 'Aladin', cursive;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
   font-size: 1.2rem;
   color: #8a4b12;
 }
