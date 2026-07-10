@@ -66,6 +66,7 @@ main {
 }
 
 .hero {
+  width: 100%;
   text-align: center;
 }
 
@@ -83,53 +84,62 @@ main {
   color: #6b4a24;
 }
 
-.message-box {
-  padding: 20px;
-  background: rgba(255, 248, 231, 0.7);
+.carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 0;
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: carousel-spin 20s linear infinite;
+}
+
+.carousel:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes carousel-spin {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.card {
+  width: 130px;
+  padding: 22px 12px;
+  background: rgba(255, 248, 231, 0.75);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(184, 130, 44, 0.4);
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(120, 72, 20, 0.15);
+  box-shadow: 0 8px 20px rgba(120, 72, 20, 0.15);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease;
 }
 
-.message-box h2 {
-  margin: 0 0 12px;
+.card-link:active .card {
+  transform: scale(0.95);
+}
+
+.card .icon {
+  font-size: 2.2rem;
+}
+
+.card .name {
   font-family: 'Aladin', cursive;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #8a4b12;
-  text-align: center;
-}
-
-.message-box input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #c99a55;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #fffaf0;
-  color: #5c3d1e;
-}
-
-.message-box button {
-  width: 100%;
-  padding: 10px;
-  background: linear-gradient(to right, #b9822c, #d9a441);
-  color: #fff8e7;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.message-box button:active {
-  background: #a06f24;
-}
-
-#mensaje-estado {
-  text-align: center;
-  min-height: 1.2em;
-  color: #8a4b12;
-  font-weight: 600;
 }
