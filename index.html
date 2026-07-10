@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rey Mago</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🎁 Carta a los Reyes Magos</h1>
+    <p>Elige tu regalo y déjanos un mensaje</p>
+  </header>
+
+  <main>
+    <section class="gift-list">
+      <div class="accordion">
+        <button class="accordion-header">Regalo 1</button>
+        <div class="accordion-body">
+          <img src="https://placehold.co/400x250?text=Regalo+1" alt="Regalo 1">
+          <p>Descripción de ejemplo del regalo número uno.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-header">Regalo 2</button>
+        <div class="accordion-body">
+          <img src="https://placehold.co/400x250?text=Regalo+2" alt="Regalo 2">
+          <p>Descripción de ejemplo del regalo número dos.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-header">Regalo 3</button>
+        <div class="accordion-body">
+          <img src="https://placehold.co/400x250?text=Regalo+3" alt="Regalo 3">
+          <p>Descripción de ejemplo del regalo número tres.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="message-box">
+      <h2>Déjanos tu mensaje</h2>
+      <input id="mensaje" type="text" placeholder="Escribe aquí...">
+      <button id="enviar-btn">Enviar</button>
+      <p id="mensaje-estado"></p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

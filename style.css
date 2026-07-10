@@ -1,0 +1,102 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #fdf6e3;
+  color: #333;
+}
+
+header {
+  text-align: center;
+  padding: 24px 16px;
+  background: #b30000;
+  color: white;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+}
+
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.accordion {
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.accordion-header {
+  width: 100%;
+  padding: 14px 16px;
+  background: #fff;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.accordion-header::after {
+  content: "▼";
+  float: right;
+  transition: transform 0.2s ease;
+}
+
+.accordion-header.open::after {
+  transform: rotate(180deg);
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  background: #fffaf0;
+  padding: 0 16px;
+}
+
+.accordion-body img {
+  width: 100%;
+  border-radius: 6px;
+  margin: 12px 0;
+}
+
+.message-box {
+  margin-top: 24px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.message-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.message-box button {
+  width: 100%;
+  padding: 10px;
+  background: #b30000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.message-box button:active {
+  background: #8a0000;
+}
