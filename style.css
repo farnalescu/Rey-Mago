@@ -4,99 +4,132 @@
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #fdf6e3;
-  color: #333;
+  min-height: 100vh;
+  font-family: 'Cairo', system-ui, sans-serif;
+  color: #5c3d1e;
+  background: linear-gradient(to bottom, #f9ecc9 0%, #f2dca3 45%, #e6bf7a 100%);
+  overflow-x: hidden;
+  position: relative;
 }
 
-header {
-  text-align: center;
-  padding: 24px 16px;
-  background: #b30000;
-  color: white;
+.dunes {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
 }
 
-header h1 {
-  margin: 0 0 8px;
-  font-size: 1.6rem;
+.dune {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: 45vh;
+  min-height: 260px;
+}
+
+.dune-back {
+  bottom: 0;
+  fill: #d9a441;
+  opacity: 0.55;
+  animation: drift 55s linear infinite;
+}
+
+.dune-mid {
+  bottom: -6px;
+  fill: #cf9636;
+  opacity: 0.75;
+  animation: drift 38s linear infinite reverse;
+}
+
+.dune-front {
+  bottom: -12px;
+  fill: #b9822c;
+  animation: drift 24s linear infinite;
+}
+
+@keyframes drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 main {
+  position: relative;
+  z-index: 1;
   max-width: 480px;
   margin: 0 auto;
   padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
 }
 
-.accordion {
-  margin-bottom: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
+.hero {
+  text-align: center;
 }
 
-.accordion-header {
-  width: 100%;
-  padding: 14px 16px;
-  background: #fff;
-  border: none;
-  text-align: left;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
+.hero h1 {
+  font-family: 'Aladin', cursive;
+  font-size: 2.8rem;
+  margin: 0 0 12px;
+  color: #8a4b12;
+  text-shadow: 0 2px 6px rgba(138, 75, 18, 0.25);
 }
 
-.accordion-header::after {
-  content: "▼";
-  float: right;
-  transition: transform 0.2s ease;
-}
-
-.accordion-header.open::after {
-  transform: rotate(180deg);
-}
-
-.accordion-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease;
-  background: #fffaf0;
-  padding: 0 16px;
-}
-
-.accordion-body img {
-  width: 100%;
-  border-radius: 6px;
-  margin: 12px 0;
+.hero p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #6b4a24;
 }
 
 .message-box {
-  margin-top: 24px;
-  padding: 16px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 20px;
+  background: rgba(255, 248, 231, 0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(184, 130, 44, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(120, 72, 20, 0.15);
+}
+
+.message-box h2 {
+  margin: 0 0 12px;
+  font-family: 'Aladin', cursive;
+  font-size: 1.4rem;
+  color: #8a4b12;
+  text-align: center;
 }
 
 .message-box input {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #c99a55;
+  border-radius: 8px;
   font-size: 1rem;
+  background: #fffaf0;
+  color: #5c3d1e;
 }
 
 .message-box button {
   width: 100%;
   padding: 10px;
-  background: #b30000;
-  color: white;
+  background: linear-gradient(to right, #b9822c, #d9a441);
+  color: #fff8e7;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .message-box button:active {
-  background: #8a0000;
+  background: #a06f24;
+}
+
+#mensaje-estado {
+  text-align: center;
+  min-height: 1.2em;
+  color: #8a4b12;
+  font-weight: 600;
 }

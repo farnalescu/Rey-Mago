@@ -1,13 +1,3 @@
-document.querySelectorAll('.accordion-header').forEach(header => {
-  header.addEventListener('click', () => {
-    const body = header.nextElementSibling;
-    const isOpen = header.classList.contains('open');
-
-    header.classList.toggle('open');
-    body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
-  });
-});
-
 const FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/REPLACE_WITH_FORM_ID/formResponse';
 const FORM_ENTRY_ID = 'entry.REPLACE_WITH_ENTRY_ID';
 

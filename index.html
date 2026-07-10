@@ -3,45 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rey Mago</title>
+  <title>Baltasar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aladin&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>🎁 Carta a los Reyes Magos</h1>
-    <p>Elige tu regalo y déjanos un mensaje</p>
-  </header>
+  <div class="dunes" aria-hidden="true">
+    <svg class="dune dune-back" viewBox="0 0 2400 300" preserveAspectRatio="none">
+      <path d="M0,180 C150,130 300,230 450,180 C600,130 750,230 900,180 C1050,130 1200,180 1200,180 L1200,300 L0,300 Z
+               M1200,180 C1350,130 1500,230 1650,180 C1800,130 1950,230 2100,180 C2250,130 2400,180 2400,180 L2400,300 L1200,300 Z" />
+    </svg>
+    <svg class="dune dune-mid" viewBox="0 0 2400 300" preserveAspectRatio="none">
+      <path d="M0,210 C200,160 400,250 600,210 C800,170 1000,250 1200,210 L1200,300 L0,300 Z
+               M1200,210 C1400,160 1600,250 1800,210 C2000,170 2200,250 2400,210 L2400,300 L1200,300 Z" />
+    </svg>
+    <svg class="dune dune-front" viewBox="0 0 2400 300" preserveAspectRatio="none">
+      <path d="M0,240 C250,200 450,270 700,240 C950,210 1150,270 1200,250 L1200,300 L0,300 Z
+               M1200,240 C1450,200 1650,270 1900,240 C2150,210 2350,270 2400,250 L2400,300 L1200,300 Z" />
+    </svg>
+  </div>
 
   <main>
-    <section class="gift-list">
-      <div class="accordion">
-        <button class="accordion-header">Regalo 1</button>
-        <div class="accordion-body">
-          <img src="https://placehold.co/400x250?text=Regalo+1" alt="Regalo 1">
-          <p>Descripción de ejemplo del regalo número uno.</p>
-        </div>
-      </div>
-
-      <div class="accordion">
-        <button class="accordion-header">Regalo 2</button>
-        <div class="accordion-body">
-          <img src="https://placehold.co/400x250?text=Regalo+2" alt="Regalo 2">
-          <p>Descripción de ejemplo del regalo número dos.</p>
-        </div>
-      </div>
-
-      <div class="accordion">
-        <button class="accordion-header">Regalo 3</button>
-        <div class="accordion-body">
-          <img src="https://placehold.co/400x250?text=Regalo+3" alt="Regalo 3">
-          <p>Descripción de ejemplo del regalo número tres.</p>
-        </div>
-      </div>
-    </section>
+    <header class="hero">
+      <h1>&#10022; Bienvenido &#10022;</h1>
+      <p>Frota la lámpara, pide tu deseo y déjalo escrito abajo</p>
+    </header>
 
     <section class="message-box">
-      <h2>Déjanos tu mensaje</h2>
-      <input id="mensaje" type="text" placeholder="Escribe aquí...">
+      <h2>Tu mensaje para los Reyes</h2>
+      <input id="mensaje" type="text" placeholder="Escribe tu deseo aquí...">
       <button id="enviar-btn">Enviar</button>
       <p id="mensaje-estado"></p>
     </section>
