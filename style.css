@@ -14,10 +14,10 @@ body {
 
 .sand-flow {
   position: fixed;
-  inset: -20%;
+  inset: -25%;
   z-index: 0;
   overflow: hidden;
-  filter: blur(55px) saturate(1.2);
+  filter: blur(70px) saturate(1.15);
 }
 
 .sf-layer {
@@ -27,70 +27,56 @@ body {
 }
 
 .sf-1 {
-  background-image:
-    radial-gradient(circle, #fff7e3 0%, transparent 60%),
-    radial-gradient(circle, #f9ecc9 0%, transparent 58%),
-    radial-gradient(circle, #f2dca3 0%, transparent 55%),
-    radial-gradient(circle, #fceecb 0%, transparent 62%);
-  background-size: 75% 75%, 60% 60%, 65% 65%, 50% 50%;
-  animation: sf-move-1 33s ease-in-out infinite alternate;
+  background-image: linear-gradient(115deg, #fff7e3 0%, #f9ecc9 20%, #f2dca3 40%, #fceecb 60%, #f9ecc9 80%, #fff7e3 100%);
+  background-size: 260% 260%;
+  animation: wave-1 26s ease-in-out infinite;
 }
 
 .sf-2 {
-  background-image:
-    radial-gradient(circle, #d9a441 0%, transparent 55%),
-    radial-gradient(circle, #e6bf7a 0%, transparent 60%),
-    radial-gradient(circle, #cf9636 0%, transparent 55%);
-  background-size: 65% 65%, 55% 55%, 70% 70%;
-  animation: sf-move-2 41s ease-in-out infinite alternate;
+  background-image: linear-gradient(250deg, #e6bf7a 0%, #d9a441 25%, #cf9636 50%, #e6bf7a 75%, #f2dca3 100%);
+  background-size: 240% 240%;
+  opacity: 0.85;
+  animation: wave-2 33s ease-in-out infinite reverse;
 }
 
 .sf-3 {
-  background-image:
-    radial-gradient(circle, #b9822c 0%, transparent 55%),
-    radial-gradient(circle, #8a4b12 0%, transparent 50%),
-    radial-gradient(circle, #a66a20 0%, transparent 58%);
-  background-size: 55% 55%, 45% 45%, 60% 60%;
+  background-image: linear-gradient(60deg, #b9822c 0%, #a66a20 30%, #8a4b12 55%, #b9822c 80%, #cf9636 100%);
+  background-size: 230% 230%;
   mix-blend-mode: multiply;
-  opacity: 0.8;
-  animation: sf-move-3 52s ease-in-out infinite alternate;
+  opacity: 0.6;
+  animation: wave-3 40s ease-in-out infinite;
 }
 
 .sf-4 {
-  background-image:
-    radial-gradient(circle, #5c3616 0%, transparent 42%),
-    radial-gradient(circle, #6b3a12 0%, transparent 48%);
-  background-size: 38% 38%, 32% 32%;
+  background-image: linear-gradient(-40deg, #6b3a12 0%, #4a2a10 35%, #6b3a12 70%, #5c3616 100%);
+  background-size: 200% 200%;
   mix-blend-mode: multiply;
-  opacity: 0.55;
-  animation: sf-move-4 27s ease-in-out infinite alternate;
+  opacity: 0.35;
+  animation: wave-4 22s ease-in-out infinite reverse;
 }
 
-@keyframes sf-move-1 {
-  0%   { background-position: -10% 10%, 90% -10%, 10% 90%, 80% 80%; background-size: 75% 75%, 60% 60%, 65% 65%, 50% 50%; }
-  30%  { background-position: 50% 70%, 20% 60%, 80% 20%, 10% 20%; background-size: 90% 90%, 45% 45%, 55% 55%, 65% 65%; }
-  65%  { background-position: 100% 40%, 60% 100%, 30% 50%, 60% 0%; background-size: 60% 60%, 70% 70%, 80% 80%, 40% 40%; }
-  100% { background-position: 20% -10%, 0% 80%, 90% 90%, 40% 60%; background-size: 80% 80%, 55% 55%, 60% 60%, 55% 55%; }
+@keyframes wave-1 {
+  0%   { background-position: 0% 30%; }
+  50%  { background-position: 100% 70%; }
+  100% { background-position: 0% 30%; }
 }
 
-@keyframes sf-move-2 {
-  0%   { background-position: 100% 100%, 0% 0%, 50% 50%; background-size: 65% 65%, 55% 55%, 70% 70%; }
-  40%  { background-position: 30% 60%, 70% 30%, 10% 80%; background-size: 50% 50%, 75% 75%, 55% 55%; }
-  75%  { background-position: 70% 10%, 20% 90%, 90% 40%; background-size: 80% 80%, 40% 40%, 65% 65%; }
-  100% { background-position: 10% 40%, 90% 70%, 40% 10%; background-size: 60% 60%, 60% 60%, 75% 75%; }
+@keyframes wave-2 {
+  0%   { background-position: 100% 20%; }
+  50%  { background-position: 0% 80%; }
+  100% { background-position: 100% 20%; }
 }
 
-@keyframes sf-move-3 {
-  0%   { background-position: 20% 80%, 80% 20%, 50% 50%; }
-  35%  { background-position: 70% 30%, 30% 70%, 90% 10%; }
-  70%  { background-position: 40% 10%, 60% 90%, 10% 60%; }
-  100% { background-position: 90% 60%, 10% 40%, 60% 90%; }
+@keyframes wave-3 {
+  0%   { background-position: 20% 100%; }
+  50%  { background-position: 80% 0%; }
+  100% { background-position: 20% 100%; }
 }
 
-@keyframes sf-move-4 {
-  0%   { background-position: 60% 40%, 20% 20%; }
-  50%  { background-position: 20% 70%, 80% 60%; }
-  100% { background-position: 80% 10%, 40% 90%; }
+@keyframes wave-4 {
+  0%   { background-position: 60% 0%; }
+  50%  { background-position: 30% 100%; }
+  100% { background-position: 60% 0%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
