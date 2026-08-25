@@ -82,6 +82,12 @@ main {
   color: #6b4a24;
 }
 
+.construction-gif {
+  display: block;
+  margin: 16px auto 0;
+  max-width: 100%;
+}
+
 .carousel {
   width: 100%;
   overflow: hidden;
