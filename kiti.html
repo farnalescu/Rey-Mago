@@ -7,14 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
-<body>
+<body data-theme="pink">
   <canvas id="sand-canvas" aria-hidden="true"></canvas>
 
   <main>
     <header class="hero">
-      <h1>&#129684; Kiti</h1>
+      <h1>Kiti</h1>
       <p>Resuelve cada pista para avanzar</p>
     </header>
 
@@ -38,7 +38,7 @@
       </div>
 
       <div class="gymkana-complete" id="gymkana-complete" hidden>
-        <h2>&#10022; ¡Gymkana completada! &#10022;</h2>
+        <h2>¡Gymkana completada!</h2>
         <p>Has resuelto todas las pistas.</p>
       </div>
 
@@ -46,11 +46,11 @@
     </section>
 
     <a class="card-link" href="index.html">
-      <div class="card"><span class="icon">&#8617;</span><span class="name">Volver</span></div>
+      <div class="card card--back"><span class="icon">&#8617;</span><span class="name">Volver</span></div>
     </a>
   </main>
 
-  <script src="sand-canvas.js?v=1"></script>
+  <script src="sand-canvas.js?v=2"></script>
   <script src="card-effects.js?v=1"></script>
   <script src="kiti.js?v=1"></script>
 </body>
