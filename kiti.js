@@ -1,98 +1,144 @@
-// Contenido de la gymkana: edita el texto de cada pista y su(s) respuesta(s) correcta(s).
-// "respuestas" acepta varias formas válidas para la misma pista (ej. sinónimos).
-const PISTAS = [
-  {
-    texto: 'Pista 1 (placeholder): ¿Qué objeto se frota para invocar a un genio?',
-    respuestas: ['lampara', 'la lampara'],
-  },
-  {
-    texto: 'Pista 2 (placeholder): Escribe la palabra secreta que te dieron al principio de la aventura.',
-    respuestas: ['palabra secreta'],
-  },
-  {
-    texto: 'Pista 3 (placeholder): ¿Cuántos deseos concede tradicionalmente un genio?',
-    respuestas: ['tres', '3'],
-  },
-  {
-    texto: 'Pista 4 (placeholder): Completa la frase: "Ábrete, ___".',
-    respuestas: ['sesamo', 'sesamo!'],
-  },
+// Contenido de la gymkana: edita el texto de cada pregunta.
+const PREGUNTAS = [
+  '¿Cómo se llamaba tu tutora en Los Salesianos?',
+  '¿Cuál era tu mayor miedo de pequeña?',
+  'Princesa Disney favorita… ¿y tu primer correo?',
+  '¿Cómo se llamaba la primera francesa que se quedó en casa?',
 ];
 
-const STORAGE_KEY = 'kiti-gymkana-progreso';
+const SWIPE_THRESHOLD = 90;
+const SWIPE_DURATION = 300;
+const MOVIMIENTO_REDUCIDO = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const progressEl = document.getElementById('gymkana-progress');
-const clueEl = document.getElementById('gymkana-clue');
-const formEl = document.getElementById('gymkana-form');
-const inputEl = document.getElementById('gymkana-input');
-const feedbackEl = document.getElementById('gymkana-feedback');
-const cardEl = document.getElementById('gymkana-card');
+const stackEl = document.getElementById('card-stack');
+const hintEl = document.getElementById('gymkana-hint');
 const completeEl = document.getElementById('gymkana-complete');
-const resetBtn = document.getElementById('gymkana-reset');
 
-function normalizar(texto) {
-  return texto
-    .trim()
-    .toLowerCase()
-    .replace(/[áàäâ]/g, 'a')
-    .replace(/[éèëê]/g, 'e')
-    .replace(/[íìïî]/g, 'i')
-    .replace(/[óòöô]/g, 'o')
-    .replace(/[úùüû]/g, 'u')
-    .replace(/ñ/g, 'n')
-    .replace(/\s+/g, ' ');
-}
+let indice = 0;
+let cartaActual = null;
+let animando = false;
 
-function leerProgreso() {
-  const guardado = parseInt(localStorage.getItem(STORAGE_KEY), 10);
-  return Number.isInteger(guardado) ? guardado : 0;
-}
-
-function guardarProgreso(indice) {
-  localStorage.setItem(STORAGE_KEY, String(indice));
+function crearCarta(texto, esSiguiente) {
+  const carta = document.createElement('div');
+  carta.className = esSiguiente ? 'swipe-card swipe-card--next' : 'swipe-card';
+  const parrafo = document.createElement('p');
+  parrafo.className = 'gymkana-clue';
+  parrafo.textContent = texto;
+  carta.appendChild(parrafo);
+  return carta;
 }
 
 function render() {
-  const indice = leerProgreso();
+  stackEl.replaceChildren();
+  cartaActual = null;
+  animando = false;
 
-  if (indice >= PISTAS.length) {
-    cardEl.hidden = true;
-    completeEl.hidden = false;
-    return;
+  const terminado = indice >= PREGUNTAS.length;
+  progressEl.hidden = terminado;
+  stackEl.hidden = terminado;
+  hintEl.hidden = terminado;
+  completeEl.hidden = !terminado;
+  if (terminado) return;
+
+  progressEl.textContent = `Pregunta ${indice + 1} de ${PREGUNTAS.length}`;
+  if (indice + 1 < PREGUNTAS.length) {
+    stackEl.appendChild(crearCarta(PREGUNTAS[indice + 1], true));
   }
-
-  cardEl.hidden = false;
-  completeEl.hidden = true;
-  progressEl.textContent = `Pista ${indice + 1} de ${PISTAS.length}`;
-  clueEl.textContent = PISTAS[indice].texto;
-  feedbackEl.textContent = '';
-  feedbackEl.className = 'gymkana-feedback';
-  inputEl.value = '';
-  inputEl.focus();
+  cartaActual = crearCarta(PREGUNTAS[indice], false);
+  stackEl.appendChild(cartaActual);
+  activarSwipe(cartaActual);
 }
 
-formEl.addEventListener('submit', (evento) => {
-  evento.preventDefault();
-  const indice = leerProgreso();
-  const pista = PISTAS[indice];
-  const respuestaUsuario = normalizar(inputEl.value);
-  const esCorrecta = pista.respuestas.some((r) => normalizar(r) === respuestaUsuario);
+function descartar(carta, direccion) {
+  if (animando) return;
+  animando = true;
+  carta.style.transform = `translateX(${direccion * window.innerWidth}px) rotate(${direccion * 25}deg)`;
+  carta.style.opacity = '0';
+  stackEl.querySelector('.swipe-card--next')?.classList.remove('swipe-card--next');
+  indice += 1;
+  const esLaUltima = indice >= PREGUNTAS.length;
+  celebrar(esLaUltima ? 100 : 40, esLaUltima ? 300 : 180);
+  setTimeout(render, SWIPE_DURATION);
+}
 
-  if (esCorrecta) {
-    feedbackEl.textContent = '¡Correcto!';
-    feedbackEl.className = 'gymkana-feedback ok';
-    guardarProgreso(indice + 1);
-    setTimeout(render, 700);
-  } else {
-    feedbackEl.textContent = 'Respuesta incorrecta, inténtalo de nuevo.';
-    feedbackEl.className = 'gymkana-feedback error';
-    inputEl.select();
+const COLORES_CONFETI = [
+  'var(--accent)',
+  'rgba(var(--accent-rgb), 0.55)',
+  '#e6bf7a',
+  '#fff3d6',
+];
+
+function celebrar(cantidad, alcance) {
+  if (MOVIMIENTO_REDUCIDO) return;
+  const rect = stackEl.getBoundingClientRect();
+  const centroX = rect.left + rect.width / 2;
+  const centroY = rect.top + rect.height / 2;
+
+  for (let i = 0; i < cantidad; i++) {
+    const pieza = document.createElement('span');
+    pieza.className = 'confeti';
+    pieza.style.left = `${centroX}px`;
+    pieza.style.top = `${centroY}px`;
+    pieza.style.background = COLORES_CONFETI[i % COLORES_CONFETI.length];
+    document.body.appendChild(pieza);
+
+    const angulo = Math.random() * Math.PI * 2;
+    const distancia = alcance * (0.5 + Math.random() * 0.5);
+    const x = Math.cos(angulo) * distancia;
+    const y = Math.sin(angulo) * distancia;
+    const giro = (Math.random() - 0.5) * 720;
+
+    pieza.animate(
+      [
+        { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+        { transform: `translate(${x}px, ${y}px) rotate(${giro / 2}deg)`, opacity: 1, offset: 0.6 },
+        { transform: `translate(${x}px, ${y + 60}px) rotate(${giro}deg)`, opacity: 0 },
+      ],
+      { duration: 900 + Math.random() * 400, easing: 'cubic-bezier(0.2, 0.8, 0.4, 1)' },
+    ).finished.then(() => pieza.remove());
   }
-});
+}
 
-resetBtn.addEventListener('click', () => {
-  localStorage.removeItem(STORAGE_KEY);
-  render();
+function activarSwipe(carta) {
+  let inicioX = 0;
+  let dx = 0;
+  let arrastrando = false;
+
+  carta.addEventListener('pointerdown', (evento) => {
+    if (animando) return;
+    arrastrando = true;
+    inicioX = evento.clientX;
+    dx = 0;
+    carta.setPointerCapture(evento.pointerId);
+    carta.classList.add('is-dragging');
+  });
+
+  carta.addEventListener('pointermove', (evento) => {
+    if (!arrastrando) return;
+    dx = evento.clientX - inicioX;
+    carta.style.transform = `translateX(${dx}px) rotate(${dx * 0.05}deg)`;
+  });
+
+  function soltar() {
+    if (!arrastrando) return;
+    arrastrando = false;
+    carta.classList.remove('is-dragging');
+    if (Math.abs(dx) > SWIPE_THRESHOLD) {
+      descartar(carta, Math.sign(dx));
+    } else {
+      carta.style.transform = '';
+    }
+  }
+
+  carta.addEventListener('pointerup', soltar);
+  carta.addEventListener('pointercancel', soltar);
+}
+
+document.addEventListener('keydown', (evento) => {
+  if (!cartaActual) return;
+  if (evento.key === 'ArrowLeft') descartar(cartaActual, -1);
+  if (evento.key === 'ArrowRight') descartar(cartaActual, 1);
 });
 
 render();

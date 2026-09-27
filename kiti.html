@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body data-theme="pink">
   <canvas id="sand-canvas" aria-hidden="true"></canvas>
@@ -15,43 +15,23 @@
   <main>
     <header class="hero">
       <h1>Kiti</h1>
-      <p>Resuelve cada pista para avanzar</p>
+      <p>Responde las preguntas una a una</p>
     </header>
 
     <section class="gymkana">
       <p class="gymkana-progress" id="gymkana-progress"></p>
 
-      <div class="gymkana-card" id="gymkana-card">
-        <p class="gymkana-clue" id="gymkana-clue"></p>
-        <form class="gymkana-form" id="gymkana-form">
-          <input
-            class="gymkana-input"
-            id="gymkana-input"
-            type="text"
-            placeholder="Escribe tu respuesta"
-            autocomplete="off"
-            autocapitalize="off"
-          />
-          <button class="gymkana-submit" type="submit">Comprobar</button>
-        </form>
-        <p class="gymkana-feedback" id="gymkana-feedback" aria-live="polite"></p>
-      </div>
+      <div class="card-stack" id="card-stack" aria-live="polite"></div>
+      <p class="gymkana-hint" id="gymkana-hint">Desliza la tarjeta para ver la siguiente pregunta</p>
 
       <div class="gymkana-complete" id="gymkana-complete" hidden>
         <h2>¡Gymkana completada!</h2>
-        <p>Has resuelto todas las pistas.</p>
+        <p>Has respondido todas las preguntas.</p>
       </div>
-
-      <button class="gymkana-reset" id="gymkana-reset" type="button">Reiniciar gymkana</button>
     </section>
-
-    <a class="card-link" href="index.html">
-      <div class="card card--back"><span class="icon">&#8617;</span><span class="name">Volver</span></div>
-    </a>
   </main>
 
   <script src="sand-canvas.js?v=2"></script>
-  <script src="card-effects.js?v=1"></script>
-  <script src="kiti.js?v=1"></script>
+  <script src="kiti.js?v=2"></script>
 </body>
 </html>
