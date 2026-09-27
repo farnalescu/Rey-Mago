@@ -4,6 +4,8 @@ const PREGUNTAS = [
   '¿Cuál era tu mayor miedo de pequeña?',
   'Princesa Disney favorita… ¿y tu primer correo?',
   '¿Cómo se llamaba la primera francesa que se quedó en casa?',
+  '¿Qué te regalaron cuando te fuiste a EE. UU.? ¿Y cómo se llamaba la familia americana a la que te enviaron?',
+  '¿Cómo conociste a Álvaro?',
 ];
 
 const SWIPE_THRESHOLD = 90;
