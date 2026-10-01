@@ -6,6 +6,7 @@ const PREGUNTAS = [
   '¿Cómo se llamaba la primera francesa que se quedó en casa?',
   '¿Qué te regalaron cuando te fuiste a EE. UU.? ¿Y cómo se llamaba la familia americana a la que te enviaron?',
   '¿Cómo conociste a Álvaro?',
+  '¿Qué cantante crees que me recuerda a ti?\n\n¿Y cuál te recuerda a mí?',
 ];
 
 const SWIPE_THRESHOLD = 90;
