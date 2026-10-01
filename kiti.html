@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body data-theme="pink">
   <canvas id="sand-canvas" aria-hidden="true"></canvas>
@@ -18,11 +18,23 @@
       <p>Responde las preguntas una a una</p>
     </header>
 
-    <section class="gymkana">
+    <section class="intro" id="intro">
+      <p class="intro-greeting">Hola <span class="pulse">Hermanita</span>,</p>
+      <p>sé que te <span class="wave"><span class="sr-only">encaaaaaanta</span><span aria-hidden="true"><span style="--i:0">e</span><span style="--i:1">n</span><span style="--i:2">c</span><span style="--i:3">a</span><span style="--i:4">a</span><span style="--i:5">a</span><span style="--i:6">a</span><span style="--i:7">a</span><span style="--i:8">a</span><span style="--i:9">n</span><span style="--i:10">t</span><span style="--i:11">a</span></span></span> hablar de ti…<br>¡Pero vamos a comprobar cuánto sabes de ti misma!</p>
+      <p>Ahora aparecerán una serie de tarjetas con preguntas relacionadas con sucesos de tu vida. Quiero que me vayas respondiendo a mis preguntas, pero añadiendo:</p>
+      <ul>
+        <li>A qué época de tu vida corresponde esto 📅</li>
+        <li>Qué te hace sentir hablar de esto ❤️</li>
+        <li>Y un dato curioso o poco conocido relacionado con la pregunta 🤓☝️</li>
+      </ul>
+      <p class="intro-teaser">Si tus respuestas me gustan y son satisfactorias… quizás te lleves algo…</p>
+      <button class="intro-start" id="intro-start" type="button">¡Empezar!</button>
+    </section>
+
+    <section class="gymkana" id="gymkana" hidden>
       <p class="gymkana-progress" id="gymkana-progress"></p>
 
       <div class="card-stack" id="card-stack" aria-live="polite"></div>
-      <p class="gymkana-hint" id="gymkana-hint">Desliza la tarjeta para ver la siguiente pregunta</p>
 
       <div class="gymkana-complete" id="gymkana-complete" hidden>
         <h2>¡Gymkana completada!</h2>
@@ -32,6 +44,6 @@
   </main>
 
   <script src="sand-canvas.js?v=2"></script>
-  <script src="kiti.js?v=3"></script>
+  <script src="kiti.js?v=4"></script>
 </body>
 </html>

@@ -12,9 +12,11 @@ const SWIPE_THRESHOLD = 90;
 const SWIPE_DURATION = 300;
 const MOVIMIENTO_REDUCIDO = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const introEl = document.getElementById('intro');
+const startBtn = document.getElementById('intro-start');
+const gymkanaEl = document.getElementById('gymkana');
 const progressEl = document.getElementById('gymkana-progress');
 const stackEl = document.getElementById('card-stack');
-const hintEl = document.getElementById('gymkana-hint');
 const completeEl = document.getElementById('gymkana-complete');
 
 let indice = 0;
@@ -24,11 +26,24 @@ let animando = false;
 function crearCarta(texto, esSiguiente) {
   const carta = document.createElement('div');
   carta.className = esSiguiente ? 'swipe-card swipe-card--next' : 'swipe-card';
-  const parrafo = document.createElement('p');
-  parrafo.className = 'gymkana-clue';
-  parrafo.textContent = texto;
-  carta.appendChild(parrafo);
+  carta.innerHTML = `
+    <div class="card-inner">
+      <div class="card-face card-face--front">
+        <span class="card-mark">?</span>
+      </div>
+      <div class="card-face card-face--back"><p class="gymkana-clue"></p></div>
+    </div>`;
+  carta.querySelector('.gymkana-clue').textContent = texto;
   return carta;
+}
+
+function estaRevelada(carta) {
+  return carta.classList.contains('is-revealed');
+}
+
+function revelar(carta) {
+  if (estaRevelada(carta)) return;
+  carta.classList.add('is-revealed');
 }
 
 function render() {
@@ -39,7 +54,6 @@ function render() {
   const terminado = indice >= PREGUNTAS.length;
   progressEl.hidden = terminado;
   stackEl.hidden = terminado;
-  hintEl.hidden = terminado;
   completeEl.hidden = !terminado;
   if (terminado) return;
 
@@ -71,9 +85,9 @@ const COLORES_CONFETI = [
   '#fff3d6',
 ];
 
-function celebrar(cantidad, alcance) {
+function celebrar(cantidad, alcance, origen = stackEl) {
   if (MOVIMIENTO_REDUCIDO) return;
-  const rect = stackEl.getBoundingClientRect();
+  const rect = origen.getBoundingClientRect();
   const centroX = rect.left + rect.width / 2;
   const centroY = rect.top + rect.height / 2;
 
@@ -107,8 +121,10 @@ function activarSwipe(carta) {
   let dx = 0;
   let arrastrando = false;
 
+  carta.addEventListener('click', () => revelar(carta));
+
   carta.addEventListener('pointerdown', (evento) => {
-    if (animando) return;
+    if (animando || !estaRevelada(carta)) return;
     arrastrando = true;
     inicioX = evento.clientX;
     dx = 0;
@@ -137,8 +153,21 @@ function activarSwipe(carta) {
   carta.addEventListener('pointercancel', soltar);
 }
 
+startBtn.addEventListener('click', () => {
+  celebrar(90, 280, startBtn);
+  introEl.hidden = true;
+  gymkanaEl.hidden = false;
+});
+
 document.addEventListener('keydown', (evento) => {
-  if (!cartaActual) return;
+  if (!cartaActual || gymkanaEl.hidden) return;
+  if (!estaRevelada(cartaActual)) {
+    if (['Enter', ' ', 'ArrowLeft', 'ArrowRight'].includes(evento.key)) {
+      evento.preventDefault();
+      revelar(cartaActual);
+    }
+    return;
+  }
   if (evento.key === 'ArrowLeft') descartar(cartaActual, -1);
   if (evento.key === 'ArrowRight') descartar(cartaActual, 1);
 });
