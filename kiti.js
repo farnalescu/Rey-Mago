@@ -1,17 +1,31 @@
 // Contenido de la gymkana: edita el texto de cada pregunta.
+// Después de cada tercera pregunta (3, 6, 9, 12) aparece una tarjeta regalo.
 const PREGUNTAS = [
-  '¿Cómo se llamaba tu tutora en Los Salesianos?',
-  '¿Cuál era tu mayor miedo de pequeña?',
-  'Princesa Disney favorita… ¿y tu primer correo?',
-  '¿Cómo se llamaba la primera francesa que se quedó en casa?',
-  '¿Qué te regalaron cuando te fuiste a EE. UU.? ¿Y cómo se llamaba la familia americana a la que te enviaron?',
-  '¿Cómo conociste a Álvaro?',
-  '¿Qué cantante crees que me recuerda a ti?\n\n¿Y cuál te recuerda a mí?',
+  '¿Cuál es el recuerdo más lejano que tienes?\n\n¿Cuál era tu princesa Disney favorita?',
+  '¿Cuál era tu mayor miedo de pequeña?\n\n¿Y ahora?',
+  '¿Cómo se llamaba la primera francesa que se quedó en casa?\n\nOlía mal, ¿no?',
+  '¿Qué te regalaron cuando fuiste a América por primera vez?',
+  '¿Qué recuerdas de Kaki?',
+  'Haz un top 3 de tus comidas favoritas…\n\n¿y cuál crees que es mi top 3?',
+  '¿Qué recuerdas con más cariño, NY o Liverpool?',
+  '¿Cómo recuerdas la pandemia?',
+  '¿Qué artista te recuerda a mí?\n\n¿Y a mamá y a papá?',
+  '¿Qué crees que pensamos en casa sobre ti?',
+  '¿Cómo conociste a Álvaro?\n\n¿Cómo fue vuestra primera cita?',
+  '¿Qué le vas a contar a tu familia sobre tu familia?',
 ];
 
+const CADA_CUANTAS_REGALO = 3;
+const TOQUES_PARA_ABRIR = 3;
+const DURACION_EXPLOSION = 350;
 const SWIPE_THRESHOLD = 90;
 const SWIPE_DURATION = 300;
 const MOVIMIENTO_REDUCIDO = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const PASOS = PREGUNTAS.flatMap((texto, i) => {
+  const pregunta = { tipo: 'pregunta', texto, numero: i + 1 };
+  return (i + 1) % CADA_CUANTAS_REGALO === 0 ? [pregunta, { tipo: 'regalo' }] : [pregunta];
+});
 
 const introEl = document.getElementById('intro');
 const startBtn = document.getElementById('intro-start');
@@ -24,17 +38,29 @@ let indice = 0;
 let cartaActual = null;
 let animando = false;
 
-function crearCarta(texto, esSiguiente) {
+function crearCarta(paso, esSiguiente) {
   const carta = document.createElement('div');
-  carta.className = esSiguiente ? 'swipe-card swipe-card--next' : 'swipe-card';
+  carta.className = 'swipe-card';
+  if (esSiguiente) carta.classList.add('swipe-card--next');
+
+  if (paso.tipo === 'regalo') {
+    carta.classList.add('swipe-card--gift');
+    carta.innerHTML = `
+      <div class="card-inner">
+        <div class="card-face card-face--front">
+          <span class="card-gift" data-toques="0">🎁</span>
+        </div>
+      </div>`;
+    return carta;
+  }
+
+  if (paso.numero % CADA_CUANTAS_REGALO === 0) carta.classList.add('swipe-card--red');
   carta.innerHTML = `
     <div class="card-inner">
-      <div class="card-face card-face--front">
-        <span class="card-mark">?</span>
-      </div>
+      <div class="card-face card-face--front"><span class="card-mark">?</span></div>
       <div class="card-face card-face--back"><p class="gymkana-clue"></p></div>
     </div>`;
-  carta.querySelector('.gymkana-clue').textContent = texto;
+  carta.querySelector('.gymkana-clue').textContent = paso.texto;
   return carta;
 }
 
@@ -47,22 +73,58 @@ function revelar(carta) {
   carta.classList.add('is-revealed');
 }
 
+function avanzar() {
+  stackEl.querySelector('.swipe-card--next')?.classList.remove('swipe-card--next');
+  indice += 1;
+  setTimeout(render, SWIPE_DURATION);
+}
+
+function tocarCarta(carta) {
+  if (estaRevelada(carta) || animando) return;
+  const regalo = carta.querySelector('.card-gift');
+  if (!regalo) {
+    revelar(carta);
+    return;
+  }
+
+  const toques = Number(regalo.dataset.toques) + 1;
+  if (toques < TOQUES_PARA_ABRIR) {
+    regalo.dataset.toques = String(toques);
+    return;
+  }
+  animando = true;
+  regalo.classList.add('is-exploding');
+  const esElFinal = indice === PASOS.length - 1;
+  celebrar(esElFinal ? 120 : 70, esElFinal ? 320 : 230, regalo);
+  setTimeout(() => {
+    carta.style.transform = 'scale(0.85)';
+    carta.style.opacity = '0';
+    avanzar();
+  }, DURACION_EXPLOSION);
+}
+
 function render() {
   stackEl.replaceChildren();
   cartaActual = null;
   animando = false;
 
-  const terminado = indice >= PREGUNTAS.length;
+  const terminado = indice >= PASOS.length;
   progressEl.hidden = terminado;
   stackEl.hidden = terminado;
   completeEl.hidden = !terminado;
   if (terminado) return;
 
-  progressEl.textContent = `Pregunta ${indice + 1} de ${PREGUNTAS.length}`;
-  if (indice + 1 < PREGUNTAS.length) {
-    stackEl.appendChild(crearCarta(PREGUNTAS[indice + 1], true));
+  const paso = PASOS[indice];
+  progressEl.textContent = paso.tipo === 'regalo'
+    ? '¡Sorpresa!'
+    : `Pregunta ${paso.numero} de ${PREGUNTAS.length}`;
+
+  const siguiente = PASOS[indice + 1];
+  if (paso.tipo === 'pregunta' && siguiente?.tipo === 'pregunta') {
+    stackEl.appendChild(crearCarta(siguiente, true));
   }
-  cartaActual = crearCarta(PREGUNTAS[indice], false);
+  cartaActual = crearCarta(paso, false);
+  if (PASOS[indice - 1]?.tipo === 'regalo') cartaActual.classList.add('swipe-card--enter');
   stackEl.appendChild(cartaActual);
   activarSwipe(cartaActual);
 }
@@ -72,11 +134,8 @@ function descartar(carta, direccion) {
   animando = true;
   carta.style.transform = `translateX(${direccion * window.innerWidth}px) rotate(${direccion * 25}deg)`;
   carta.style.opacity = '0';
-  stackEl.querySelector('.swipe-card--next')?.classList.remove('swipe-card--next');
-  indice += 1;
-  const esLaUltima = indice >= PREGUNTAS.length;
-  celebrar(esLaUltima ? 100 : 40, esLaUltima ? 300 : 180);
-  setTimeout(render, SWIPE_DURATION);
+  celebrar(40, 180);
+  avanzar();
 }
 
 const COLORES_CONFETI = [
@@ -122,7 +181,7 @@ function activarSwipe(carta) {
   let dx = 0;
   let arrastrando = false;
 
-  carta.addEventListener('click', () => revelar(carta));
+  carta.addEventListener('click', () => tocarCarta(carta));
 
   carta.addEventListener('pointerdown', (evento) => {
     if (animando || !estaRevelada(carta)) return;
@@ -165,7 +224,7 @@ document.addEventListener('keydown', (evento) => {
   if (!estaRevelada(cartaActual)) {
     if (['Enter', ' ', 'ArrowLeft', 'ArrowRight'].includes(evento.key)) {
       evento.preventDefault();
-      revelar(cartaActual);
+      tocarCarta(cartaActual);
     }
     return;
   }
